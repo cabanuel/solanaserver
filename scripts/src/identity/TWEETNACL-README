@@ -1,0 +1,22 @@
+This is TweetNaCl, the 2014-04-27 reference release.
+
+tweetnacl.c and tweetnacl.h are byte-for-byte the files published at
+https://tweetnacl.cr.yp.to/20140427/ - do not edit them. Everything this
+firmware needs on top of them lives in ed25519.h/.cpp, including the
+randombytes() the library declares but deliberately does not provide.
+
+  tweetnacl.c  sha256 02e65bc3013ff2168983365e55906bc783c4c7e0a60d8100f17bb303a17175c4
+  tweetnacl.h  sha256 43f29ad721d9927b747b0100ab4160c119e7bb180c7c98a66e4bf79d31244287
+
+Authors: Daniel J. Bernstein, Bernard van Gastel, Wesley Janssen, Tanja
+Lange, Peter Schwabe, Sjaak Smetsers. The whole library is in the public
+domain (see https://tweetnacl.cr.yp.to/, "TweetNaCl is public domain").
+
+Why this one, when it is also the slowest Ed25519 in existence: it is 809
+lines with no build system, no assembly, no configuration and no
+dependencies beyond a 64-bit integer type, and it carries its own SHA-512.
+The badge signs a ~90-byte challenge a handful of times per boot, so a
+signature costing a second of CPU is a price worth paying for a crypto
+dependency nobody has to maintain. Only crypto_sign is used; the rest of
+NaCl comes along because the file is not separable, and the linker drops
+it.
